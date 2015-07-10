@@ -1,0 +1,23 @@
+body {
+	background-color: #f79f94;
+}
+
+.col4-custom {
+	background-color: #fff;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+ 
+.overall {
+	border: 10px solid black;
+}
+
+table {
+	color: #f47564;
+	border-collapse: separate;
+	border-spacing: 10px;
+}
+
+.monospace {
+	font-family: monospace;
+}
