@@ -2,6 +2,25 @@ body {
 	background-color: #f79f94;
 }
 
+.allonoff {
+	width: 100%;
+	padding: 0;
+}
+
+.navlist-li {
+	float: left;
+	width: 10%%;
+	color: #eee;
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.navlist {
+	width: 100%;
+	list-style-type: none;
+	padding: 0;
+}
+
 .col4-custom {
 	background-color: #fff;
 	padding-top: 1px;
