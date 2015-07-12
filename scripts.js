@@ -10,6 +10,10 @@ $(document).ready(function() {
   var online = [];
 
   getFCC();
+
+  // Use API to search for Games = "Programming"
+  // curl -H 'Accept: application/vnd.twitchtv.v3+json' \
+  // -X GET https://api.twitch.tv/kraken/search/games?q=star&type=suggest
   
   function getFCC() {
     $.ajax({
