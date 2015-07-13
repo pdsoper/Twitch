@@ -97,8 +97,8 @@ $(document).ready(function() {
         channelUrl = streams[i]["channel"]["url"];
         $('.coders').append('\n' +
           '<tr>\n' +
-          '   <td> <img  class="' + coderName +' -icon img-circle" width=50px height=50px src="'+ coderIcon + '" /> </td>\n' +
-          '   <td> <span class="' + coderName + '-name">' + coderName + '</span> </td>' +
+          '   <td> <img  class="img-circle" width=50px height=50px src="'+ coderIcon + '" /> </td>\n' +
+          '   <td> ' + coderName + '<span class="details">This is a footnote la di dah di dah rum tum tiddle um tum</span></td>' +
           '   <td> <a href="' + channelUrl + '" target="_blank"> <span class="text-success"> <strong><i class="fa fa-check"></i> </strong></span></a> </td>' +
           '</tr>\n');
       };

@@ -1,12 +1,11 @@
 body {
 	background-color: #f79f94;
-	font-family: sans-serif;
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
 .container {
 	width: 300px;
 	margin: auto;
-
 }
 
 .allonoff {
@@ -49,7 +48,7 @@ li:last-child {
 	border-right: 10px solid transparent;
 	border-top: 10px solid #F37564;
 	display: inline-block;
-	top: -4px;
+	top: -8px;
 }
 
 .arrow-all {
@@ -73,6 +72,11 @@ li:last-child {
 .search-div {
 	width: 300px;
 	background-color: #fff;
+	position: relative;
+	top: -10px;
+	padding-bottom: 2px;
+	border-bottom: 1px solid #dddddd;
+	height: 40px;
 }
 
 form {
@@ -83,44 +87,17 @@ form {
 }
 
 .search { 
-	padding:6px 15px 6px 30px;
-	margin:3px; 
-	background: url('./images/search.png') no-repeat 8px 6px; 
-}
-
-.rounded { 
+	padding: 6px 15px 6px 30px;
+	margin:3px 3px 4px 3px; 
+	background: no-repeat 8px 6px; 
 	border-radius:15px; 
-	-moz-border-radius:15px; 
-	-webkit-border-radius:15px; 
 }
-
-
-.search-div {
-	position: relative;
-	border-bottom: 1px solid #dddddd;
-	height: 40px;
-}
-
-
-/*
-.search-inner {
-	width: 300px;
-	padding: 10px 0 10px 0px;
-	margin-left: 10px;
-	width: 280px;
-	border: 1px solid red; 
-}
-*/
 
 .fa-search {
 	position: relative;
 	top: 4px;
 	left: 30px;
 	color: #dddddd;
-}
-
-.fa-check {
-	color: green;
 }
 
 #search-input {
@@ -134,22 +111,44 @@ form {
 	outline: none;
 }
 
-.col4-custom {
+.table-div {
+	position: relative;
+	top: -10px;
 	background-color: #fff;
 	padding-top: 1px;
 	padding-bottom: 1px;
-}
- 
-.overall {
-	border: 10px solid black;
+	display: table;
+	width: 300px;
 }
 
 table {
+	table-layout: fixed;
+	width: 100%;
 	color: #f47564;
 	border-collapse: separate;
 	border-spacing: 10px;
+	width: 300px;
 }
 
-.monospace {
-	font-family: monospace;
+td:first-child {
+	width: 50px;
+	padding-right: 0;
+}
+
+td:last-child {
+	width: 20px;
+	text-align: center;
+}
+
+.fa-check {
+	color: green;
+}
+
+.details {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 0.8em;
+	color: #BFB5B8;
 }
