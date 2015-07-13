@@ -1,35 +1,33 @@
 $(document).ready(function() {
-  var coder_ids = ["izakOOO", "imaqtpie", "MedryBW", "freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","comster404","brunofin","thomasballinger","noobs2ninjas","beohoff"];
-  var url = "https://api.twitch.tv/kraken/streams/freecodecamp";
-  // var url = "https://api.twitch.tv/kraken/streams/lirik";
-  var channelUrl, game, viewers, fps, preview, displayName;
+  var coder_ids = ["freecodecamp", "MedryBW", "storbeck", "terakilobyte", "habathcx","RobotCaleb","comster404","brunofin","thomasballinger","noobs2ninjas","beohoff"];
   
   var coderStatus = [];
   var coderNames = [];
   var coderIcons = [];
   var online = [];
+  var coders = [];
 
   getOnLine(true);
 
-  $('#all').click(function() {
+  $('#all').click(function(event) {
     $('.coders').html("");
-    getOnLine(true);
+    $('.coders').html(makeTable(coders));
     $('.arrow-all').css("visibility", "visible");
     $('.arrow-on').css("visibility", "hidden");
     $('.arrow-off').css("visibility", "hidden");
   })
 
-  $('#online').click(function() {
+  $('#online').click(function(event) {
     $('.coders').html("");
-    getOnLine(false);
+    $('.coders').html(makeTable(coders.filter(function(a) { return a.online; })));
     $('.arrow-all').css("visibility", "hidden");
     $('.arrow-on').css("visibility", "visible");
     $('.arrow-off').css("visibility", "hidden");
   })
 
-  $('#offline').click(function() {
+  $('#offline').click(function(event) {
     $('.coders').html("");
-    getOffLine();
+    $('.coders').html(makeTable(coders.filter(function(a) { return !a.online; })));
     $('.arrow-all').css("visibility", "hidden");
     $('.arrow-on').css("visibility", "hidden");
     $('.arrow-off').css("visibility", "visible");
@@ -44,26 +42,26 @@ $(document).ready(function() {
       dataType: "jsonp",
     })
     .done(function(obj, status, jqXHR) {
-      var streams = obj.streams;
-      // console.log(obj);
+      // console.log(obj.streams);
       // $('#online').html(makeJSONTable(obj,"Online Users"));
-      for (var i = 0; i < streams.length; i++) {
-        var coderName = streams[i].channel.display_name.toLowerCase();
+      coders = obj.streams.map(function(current, index, array) {
+        var coderName = current.channel.display_name.toLowerCase();
+        var coderIcon = current.channel.logo;  
+        var status = current.channel.status;
+        var channelUrl = current.channel.url;
         online.push(coderName);
-        var coderIcon = streams[i].channel.logo;  
-        var status = streams[i].channel.status;
         if (coderIcon === null) {
           coderIcon = "http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-th.png";
         }
-        channelUrl = streams[i].channel.url;
-        $('.coders').append('\n' +
-          '<tr class="online">\n' +
-          '   <td> <img class="coder-img" src="'+ coderIcon + '" /> </td>\n' +
-          '   <td>' + coderName + '<span class="details">' + status + '</span></td>' +
-          '   <td> <a href="' + channelUrl + '" target="_blank"> <span class="text-success"> <strong><i class="fa fa-check"></i> </strong></span></a> </td>' +
-          '</tr>\n');
-      };
-      if (andOffLine === true) {
+        return {
+          name: coderName,
+          icon: coderIcon,
+          status: current.channel.status,
+          url: current.channel.url,
+          online: true,
+        };
+      });
+      if (true) {
         getOffLine();
       }
     })
@@ -83,14 +81,13 @@ $(document).ready(function() {
         if (online.indexOf(coderNames[i]) >= 0) return;
         var queryUrl = "https://api.twitch.tv/kraken/users/" + coderNames[i];
         // console.log(queryUrl);
-        // $('#offline').html(makeJSONTable(obj,"Online Users"));
+        // $('#offline').html(makeJSONTable(obj,"Offline Users"));
         $.ajax({
             url: queryUrl,
             dataType: "jsonp",
             type: "POST",
         })
         .done(function(obj, status, jqXHR) {
-          // console.log(obj);
           if (obj === null) {
             return;
           }
@@ -98,15 +95,16 @@ $(document).ready(function() {
           if (coderIcons[i] === null) {
             coderIcons[i] = "http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-th.png";
           }
-          coderStatus[i] = '<i class="fa fa-exclamation"></i>';
-          // console.log(obj, coderIcons[i]);
-          $('.coders').append('\n' +
-            '<tr class="offline">\n' +
-            '   <td> <img  class="coder-img" src="'+ coderIcons[i] + '" /> </td>\n' +
-            '   <td> ' + coderNames[i] + ' </td>' +
-            '   <td> ' + coderStatus[i] + ' </td>' +
-            '</tr>\n');
-        })
+          coders = coders.concat([{
+            name: coderNames[i],
+            icon: coderIcons[i],
+            status: "",
+            url: "",
+            online: false,
+          }]);
+          // console.log(coders);
+          $('.coders').html(makeTable(coders));
+       })
         .fail(function(jqXHR, status, errorThrown) {
           alert("Sorry - Twitch is unavailable");
           console.log("getJSON status = " + status + " for " + url);
@@ -116,34 +114,33 @@ $(document).ready(function() {
         });
       })(i) ;
      }
-  }
+    }
 
-  // Use API to search for Games = "Programming"
-  // curl -H 'Accept: application/vnd.twitchtv.v3+json' \
-  // -X GET https://api.twitch.tv/kraken/search/games?q=star&type=suggest
-  // This doesn't look as straightforward as I'd hoped
-  function getProgramming() {
-    $.ajax({
-        url: "https://api.twitch.tv/kraken/streams/eswc",
-        type: "GET",
-        dataType: "jsonp",
-    })
-    .done(function(data, textStatus, jqXHR) {
-      console.log("HTTP Request Succeeded: " + jqXHR.status);
-      // console.log(data);
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log("HTTP Request Failed");
-      console.log(jqXHR);
-      console.log(errorThrown);
-    })
-    .always(function() {
-      //data|jqXHR, textStatus, jqXHR|errorThrown
-      findOnline();
-      findOffline();
-    });
+  function makeTable(arr) {
+    return arr.reduce(function(previous, current, index, array) {
+      var tr = 
+        '<tr>\n' +
+        '   <td> <img class="coder-img" src="'+ current.icon + '" /> </td>\n' +
+        '   <td>' + current.name;
+      if (current.online) {
+        tr += '<span class="details">' + current.status + '</span></td>' +
+        '   <td> <a href="' + current.rl + '" target="_blank">' +
+        '   <strong><i class="fa fa-check"></i> </strong></a> </td>' +
+        '</tr>\n';
+      } else {
+        tr += '</td><td><strong><i class="fa fa-exclamation"></i> </strong> </td>' +
+        '</tr>\n';  
+      }
+      return previous + tr;
+    },'');
   }
+  
 
+  /* Consider using an API to search for Games = "Programming"
+  in order to populate the initial list.
+  This doesn't look as straightforward as I'd hoped, since "program" a
+  and "programming" return a lot of false hits */
+  
   function makeJSONTable(obj, heading) {
     /* This returns HTML for a nested table of JSON data. 
     Use Bootstrap, if available.  If not, use css */
@@ -178,45 +175,4 @@ $(document).ready(function() {
     return tableBody; 
   }
 
-
-/*
-  function getFCC() {
-    $.ajax({
-        url: "https://api.twitch.tv/kraken/streams/eswc",
-        type: "GET",
-        dataType: "jsonp",
-    })
-    .done(function(data, textStatus, jqXHR) {
-      console.log("HTTP Request Succeeded: " + jqXHR.status);
-      // console.log(data);
-      if (data.stream === null) {
-        $('h3').html('<h3><span class="monospace">freeCodeCamp</span> is offline</h3>');
-        return;
-      }  
-      channelUrl = data.stream.channel.url;
-      displayName = data.stream.channel.display_name;
-      online.push(displayName.toLowerCase());
-      game = data.stream.game;
-      $('h3').html('<h3><span class="monospace text-primary">' + displayName + '</span> is <a href="' + channelUrl + '" target="_blank">online!</a></h3>');
-      viewers = data.stream.viewers;
-      fps =  Math.round(data.stream.average_fps);
-      // preview = data.stream.preview.small;
-      $('.details').html('<span class="monospace">' + displayName + '</span> currently has ' + viewers + ' viewers and is running ' + game + ' at ' + fps + ' frames per second.');
-      // $('.preview').html('<a href="' + channelUrl +'"><img class="img-responsive" src="' + preview + '" alt=Snapshot preview of "' + game + '" /></a>');
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log("HTTP Request Failed");
-      console.log(jqXHR);
-      console.log(errorThrown);
-    })
-    .always(function() {
-      //data|jqXHR, textStatus, jqXHR|errorThrown
-      findOnline();
-      findOffline();
-    });
-  }
-*/
-
 }); 
-
-
