@@ -97,7 +97,7 @@ $(document).ready(function() {
         channelUrl = streams[i]["channel"]["url"];
         $('.coders').append('\n' +
           '<tr>\n' +
-          '   <td> <img  class="img-circle" width=50px height=50px src="'+ coderIcon + '" /> </td>\n' +
+          '   <td> <img  class="coder-img" src="'+ coderIcon + '" /> </td>\n' +
           '   <td> ' + coderName + '<span class="details">This is a footnote la di dah di dah rum tum tiddle um tum</span></td>' +
           '   <td> <a href="' + channelUrl + '" target="_blank"> <span class="text-success"> <strong><i class="fa fa-check"></i> </strong></span></a> </td>' +
           '</tr>\n');
@@ -137,8 +137,8 @@ $(document).ready(function() {
           // console.log(obj, coderIcons[i]);
           $('.coders').append('\n' +
             '<tr>\n' +
-            '   <td> <img  class="' + coderNames[i] +' -icon img-circle" width=50px height=50px src="'+ coderIcons[i] + '" /> </td>\n' +
-            '   <td> <span class="' + coderNames[i] + '-name">' + coderNames[i] + '</span> </td>' +
+            '   <td> <img  class="coder-img" src="'+ coderIcons[i] + '" /> </td>\n' +
+            '   <td> ' + coderNames[i] + ' </td>' +
             '   <td> ' + coderStatus[i] + ' </td>' +
             '</tr>\n');
         })
