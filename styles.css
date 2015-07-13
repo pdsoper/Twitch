@@ -21,13 +21,20 @@ body {
 
 .navlist-li {
 	padding: 10px 0 10px 0;
-	float: left;
+	margin: 0;
+	display: inline-block;
 	width: 99px;
 	color: #eee;
 	background-color: #F37564;
-	border-left: 2px;
-	border-color: black;
 	text-align: center;
+}
+
+li:not(:last-child) {
+	border-right: 1px solid #F79F94;
+}
+
+li:last-child {
+	border-right: 1px solid #F37564;
 }
 
 .search-div {
