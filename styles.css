@@ -78,6 +78,8 @@ li:last-child {
 form {
 	width: 300px;
 	margin: 0 auto;
+	position: relative;
+	top: -4px;
 }
 
 .search { 
@@ -92,16 +94,44 @@ form {
 	-webkit-border-radius:15px; 
 }
 
+
+.search-div {
+	position: relative;
+	border-bottom: 1px solid #dddddd;
+	height: 40px;
+}
+
+
+/*
 .search-inner {
+	width: 300px;
 	padding: 10px 0 10px 0px;
 	margin-left: 10px;
 	width: 280px;
-	border: 1px solid red;
+	border: 1px solid red; 
+}
+*/
+
+.fa-search {
+	position: relative;
+	top: 4px;
+	left: 30px;
+	color: #dddddd;
+}
+
+.fa-check {
+	color: green;
 }
 
 #search-input {
-	width: 250px;
-	border: 1px solid black;
+	width: 200px;
+	height: 12px;
+	position: relative;
+	left: 22px;
+	top: -15px;
+	margin: auto;
+	border: 1px solid #dddddd;
+	outline: none;
 }
 
 .col4-custom {

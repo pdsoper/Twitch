@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var coder_ids = ["eswc", "freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","comster404","brunofin","thomasballinger","noobs2ninjas","beohoff"];
+  var coder_ids = ["nightblue3", "freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","comster404","brunofin","thomasballinger","noobs2ninjas","beohoff"];
   var url = "https://api.twitch.tv/kraken/streams/freecodecamp";
   // var url = "https://api.twitch.tv/kraken/streams/lirik";
   var channelUrl, game, viewers, fps, preview, displayName;
@@ -14,7 +14,29 @@ $(document).ready(function() {
   // Use API to search for Games = "Programming"
   // curl -H 'Accept: application/vnd.twitchtv.v3+json' \
   // -X GET https://api.twitch.tv/kraken/search/games?q=star&type=suggest
-  
+  // This doesn't look as straightforward as I'd hoped
+  function getProgramming() {
+    $.ajax({
+        url: "https://api.twitch.tv/kraken/streams/eswc",
+        type: "GET",
+        dataType: "jsonp",
+    })
+    .done(function(data, textStatus, jqXHR) {
+      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      // console.log(data);
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("HTTP Request Failed");
+      console.log(jqXHR);
+      console.log(errorThrown);
+    })
+    .always(function() {
+      //data|jqXHR, textStatus, jqXHR|errorThrown
+      findOnline();
+      findOffline();
+    });
+  }
+
   function getFCC() {
     $.ajax({
         url: "https://api.twitch.tv/kraken/streams/eswc",
@@ -77,7 +99,7 @@ $(document).ready(function() {
           '<tr>\n' +
           '   <td> <img  class="' + coderName +' -icon img-circle" width=50px height=50px src="'+ coderIcon + '" /> </td>\n' +
           '   <td> <span class="' + coderName + '-name">' + coderName + '</span> </td>' +
-          '   <td> <a href="' + channelUrl + '" target="_blank"> <span class="text-success"> <strong>online </strong></span></a> </td>' +
+          '   <td> <a href="' + channelUrl + '" target="_blank"> <span class="text-success"> <strong><i class="fa fa-check"></i> </strong></span></a> </td>' +
           '</tr>\n');
       };
     })
@@ -111,7 +133,7 @@ $(document).ready(function() {
           if (coderIcons[i] === null) {
             coderIcons[i] = "http://www.clker.com/cliparts/d/L/P/X/z/i/no-image-icon-th.png";
           }
-          coderStatus[i] = "offline";
+          coderStatus[i] = '<i class="fa fa-exclamation"></i>';
           // console.log(obj, coderIcons[i]);
           $('.coders').append('\n' +
             '<tr>\n' +
@@ -133,9 +155,4 @@ $(document).ready(function() {
 
 }); 
 
-/*  
-var profile_banner = obj["stream"]["channel"]["profile_banner"];
-console.log(profile_banner);
 
-
-*/
