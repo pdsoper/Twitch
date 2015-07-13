@@ -29,6 +29,10 @@ body {
 	text-align: center;
 }
 
+.navlist:hover {
+	cursor: pointer;
+}
+
 li:not(:last-child) {
 	border-right: 1px solid #F79F94;
 }
@@ -121,7 +125,7 @@ form {
 	width: 300px;
 }
 
-table {
+.coders {
 	table-layout: fixed;
 	width: 100%;
 	color: #f47564;
@@ -136,12 +140,12 @@ table {
 	border-radius: 25px;
 }
 
-td:first-child {
+.coders td:first-child {
 	width: 50px;
 	padding-right: 0;
 }
 
-td:last-child {
+.coders td:last-child {
 	width: 20px;
 	text-align: center;
 }
