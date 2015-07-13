@@ -1,5 +1,6 @@
 body {
 	background-color: #f79f94;
+	font-family: sans-serif;
 }
 
 .container {
@@ -35,6 +36,38 @@ li:not(:last-child) {
 
 li:last-child {
 	border-right: 1px solid #F37564;
+}
+
+.arrow-div {
+	background-color: white;
+}
+
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid #F37564;
+	display: inline-block;
+	top: -4px;
+}
+
+.arrow-all {
+	position: relative;
+	left:39px;
+	visibility: visible;
+}
+
+.arrow-on {
+	position: relative;
+	left: 115px;
+	visibility: hidden;
+}
+
+.arrow-off {
+	position: relative;
+	left: 190px;
+	visibility: hidden;
 }
 
 .search-div {
