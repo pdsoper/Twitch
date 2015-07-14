@@ -6,10 +6,37 @@ $(document).ready(function() {
   var coderIcons = [];
   var online = [];
   var coders = [];
+  var show = 'both';
 
   getOnLine(true);
 
+  $('#search-input').keyup(function(event) {
+    var searchStr = $('#search-input').val();
+    $('.coders').html("");
+    if (show === 'both') {
+      $('.coders').html(makeTable(coders
+        .filter(function(a) {
+          return (a.name.indexOf(searchStr) >= 0);
+        })
+      ));
+    } else if (show === 'online') {
+      $('.coders').html(makeTable(coders
+        .filter(function(a) {
+          return (a.name.indexOf(searchStr) >= 0) && a.online;
+        })
+      ));
+    } else {
+      $('.coders').html(makeTable(coders
+        .filter(function(a) {
+          return (a.name.indexOf(searchStr) >= 0) && !a.online; 
+        })
+      ));
+    }
+  });
+
   $('#all').click(function(event) {
+    show = 'both';
+    $('#search-input').val("");
     $('.coders').html("");
     $('.coders').html(makeTable(coders));
     $('.arrow-all').css("visibility", "visible");
@@ -18,6 +45,8 @@ $(document).ready(function() {
   })
 
   $('#online').click(function(event) {
+    show = 'online';
+    $('#search-input').val("");
     $('.coders').html("");
     $('.coders').html(makeTable(coders.filter(function(a) { return a.online; })));
     $('.arrow-all').css("visibility", "hidden");
@@ -26,6 +55,8 @@ $(document).ready(function() {
   })
 
   $('#offline').click(function(event) {
+    show = 'offline';
+    $('#search-input').val("");
     $('.coders').html("");
     $('.coders').html(makeTable(coders.filter(function(a) { return !a.online; })));
     $('.arrow-all').css("visibility", "hidden");
@@ -102,7 +133,19 @@ $(document).ready(function() {
             url: "",
             online: false,
           }]);
-          // console.log(coders);
+          coders.sort(function(a,b) {
+            if (a.online === b.online) {
+              if (a.name < b.name) {
+                return -1;
+              } else {
+                return 1;
+              }
+            } else if (a.online) {
+              return -1;
+            } else {
+              return 1;
+            }
+          });
           $('.coders').html(makeTable(coders));
        })
         .fail(function(jqXHR, status, errorThrown) {
@@ -134,45 +177,10 @@ $(document).ready(function() {
       return previous + tr;
     },'');
   }
-  
 
-  /* Consider using an API to search for Games = "Programming"
+  /* I considered using an API to search for Games = "Programming"
   in order to populate the initial list.
-  This doesn't look as straightforward as I'd hoped, since "program" a
+  This doesn't look as straightforward as I'd hoped, since "program" 
   and "programming" return a lot of false hits */
   
-  function makeJSONTable(obj, heading) {
-    /* This returns HTML for a nested table of JSON data. 
-    Use Bootstrap, if available.  If not, use css */
-    var bootstrap_enabled = (typeof $().modal === 'function');
-    var tableBody = "";
-    if (heading !== undefined) {
-      tableBody += '<h4 style="background-color:white;color:black">' + heading + '</h4>';
-    }
-    if (obj === null) {
-      return tableBody;
-    }
-    if (bootstrap_enabled) {
-      tableBody += '<table class="table table-striped table-bordered">\n';
-    } else {
-      tableBody += '<table style="background-color:white;color:black;border-collapse:collapse">\n';
-    }
-    $.each(obj, function(k, v) {
-      if (bootstrap_enabled) {
-        tableBody += '<tr><td>' + k + '</td><td>';
-      } else {
-        tableBody += '<tr style="background-color:white;color:black;border:1px solid black">'
-                  +  '<td style="background-color:white;color:black;border:1px solid black">' 
-                  + k + '</td><td>';
-      }
-      if (typeof v !== "object") {
-        tableBody += v;
-      } else {
-        tableBody += makeJSONTable(v);
-      }
-    });
-    tableBody += '</td></tr></table>';
-    return tableBody; 
-  }
-
 }); 
