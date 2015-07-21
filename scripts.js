@@ -1,6 +1,6 @@
 $(document).ready(function() {
   var coder_ids = ["freecodecamp", "MedryBW", "storbeck", "terakilobyte", "habathcx","RobotCaleb","comster404","brunofin","thomasballinger","noobs2ninjas","beohoff"];
-  
+
   var coderStatus = [];
   var coderNames = [];
   var coderIcons = [];
@@ -28,7 +28,7 @@ $(document).ready(function() {
     } else {
       $('.coders').html(makeTable(coders
         .filter(function(a) {
-          return (a.name.indexOf(searchStr) >= 0) && !a.online; 
+          return (a.name.indexOf(searchStr) >= 0) && !a.online;
         })
       ));
     }
@@ -77,7 +77,7 @@ $(document).ready(function() {
       // $('#online').html(makeJSONTable(obj,"Online Users"));
       coders = obj.streams.map(function(current, index, array) {
         var coderName = current.channel.display_name.toLowerCase();
-        var coderIcon = current.channel.logo;  
+        var coderIcon = current.channel.logo;
         var status = current.channel.status;
         var channelUrl = current.channel.url;
         online.push(coderName);
@@ -161,18 +161,18 @@ $(document).ready(function() {
 
   function makeTable(arr) {
     return arr.reduce(function(previous, current, index, array) {
-      var tr = 
+      var tr =
         '<tr>\n' +
         '   <td> <img class="coder-img" src="'+ current.icon + '" /> </td>\n' +
         '   <td>' + current.name;
       if (current.online) {
         tr += '<span class="details">' + current.status + '</span></td>' +
-        '   <td> <a href="' + current.rl + '" target="_blank">' +
+        '   <td> <a href="' + current.url + '" target="_blank">' +
         '   <strong><i class="fa fa-check"></i> </strong></a> </td>' +
         '</tr>\n';
       } else {
         tr += '</td><td><strong><i class="fa fa-exclamation"></i> </strong> </td>' +
-        '</tr>\n';  
+        '</tr>\n';
       }
       return previous + tr;
     },'');
@@ -180,7 +180,7 @@ $(document).ready(function() {
 
   /* I considered using an API to search for Games = "Programming"
   in order to populate the initial list.
-  This doesn't look as straightforward as I'd hoped, since "program" 
+  This doesn't look as straightforward as I'd hoped, since "program"
   and "programming" return a lot of false hits */
-  
-}); 
+
+});
